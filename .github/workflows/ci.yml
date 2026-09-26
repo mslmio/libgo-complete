@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    # A tag IS the release here, resolvable the moment it lands, so CI on it
+    # cannot block a bad release. It turns one into a red run instead of silence.
+    tags: ['v*']
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # The floor go.mod declares, and the two Go releases upstream supports.
+        # stable is the only leg govulncheck runs on: it judges the standard
+        # library by the Go running the scan, so an older line reports fixes it
+        # never received, which nothing in this module can change.
+        go: ['1.24', 'oldstable', 'stable']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: ${{ matrix.go }}
+      - name: gofmt
+        run: |
+          unformatted="$(gofmt -l .)"
+          if [ -n "$unformatted" ] ; then
+            echo "gofmt needed on:" >&2
+            echo "$unformatted" >&2
+            exit 1
+          fi
+      - run: go vet ./...
+      - run: go test -race ./...
+      # GOTOOLCHAIN=auto for the install alone: setup-go exports local, and
+      # govulncheck may need a newer Go to build than the one it scans with.
+      - name: govulncheck
+        if: matrix.go == 'stable'
+        run: |
+          GOTOOLCHAIN=auto go install golang.org/x/vuln/cmd/govulncheck@latest
+          govulncheck ./...
