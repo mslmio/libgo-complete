@@ -173,7 +173,7 @@ func rcFile(home, name, bin string) string {
 	return ""
 }
 
-// fishConfigDir honours XDG, which is where fish actually looks.
+// fishConfigDir honors XDG, which is where fish actually looks.
 func fishConfigDir(home string) string {
 	base := os.Getenv("XDG_CONFIG_HOME")
 	if base == "" {
@@ -251,7 +251,7 @@ func (s *rcShell) uninstall(cmd string) error {
 		}
 		kept = append(kept, line)
 	}
-	// Written through a neighbouring file and renamed, so an interrupted
+	// Written through a neighboring file and renamed, so an interrupted
 	// uninstall cannot leave someone with a truncated startup file.
 	tmp := s.path + ".complete.tmp"
 	if err := os.WriteFile(tmp, []byte(strings.Join(kept, "\n")), 0o644); err != nil {

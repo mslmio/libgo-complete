@@ -11,7 +11,7 @@ type Arg struct {
 	Completed bool
 }
 
-// Parse splits a command line the way a POSIX shell would, honouring single
+// Parse splits a command line the way a POSIX shell would, honoring single
 // quotes, double quotes and backslash escapes.
 //
 // The final word is Completed only when the line ends in unquoted whitespace.

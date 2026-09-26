@@ -55,12 +55,12 @@ install.Uninstall("mytool")
 install.BashCmd("mytool")    // or print the line for manual installation
 ```
 
-A startup file is only created for a shell that is actually installed, so a machine without zsh does not grow a `~/.zshrc`. Uninstall writes through a neighbouring file and renames, so an interrupted run cannot leave a truncated startup file.
+A startup file is only created for a shell that is actually installed, so a machine without zsh does not grow a `~/.zshrc`. Uninstall writes through a neighboring file and renames, so an interrupted run cannot leave a truncated startup file.
 
 ## Prior art
 
 [posener/complete](https://github.com/posener/complete) established this approach in Go and is worth reading. This is an independent implementation with a smaller surface and no dependencies.
 
-## Licence
+## License
 
 MIT.
