@@ -7,6 +7,16 @@ import (
 	"testing"
 )
 
+func TestRunDeclined(t *testing.T) {
+	for _, answer := range []string{"n\n", "\n", ""} {
+		var out strings.Builder
+		Run("mytool", false, false, &out, strings.NewReader(answer))
+		if got := out.String(); got != "install completion for mytool? [y/N] canceled\n" {
+			t.Errorf("answer %q: %q", answer, got)
+		}
+	}
+}
+
 func TestShellCmds(t *testing.T) {
 	binPath = "/usr/local/bin/mytool"
 

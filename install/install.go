@@ -34,7 +34,7 @@ func Run(name string, uninstall, yes bool, out io.Writer, in io.Reader) {
 		switch strings.ToLower(strings.TrimSpace(answer)) {
 		case "y", "yes":
 		default:
-			fmt.Fprintln(out, "cancelled")
+			fmt.Fprintln(out, "canceled")
 			return
 		}
 	}
