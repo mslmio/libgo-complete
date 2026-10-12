@@ -45,7 +45,7 @@ func main() {
 
 `Complete` returns immediately unless the shell is asking, so a normal run pays one `getenv`.
 
-Predictors are `predict.Nothing` for a boolean flag, `predict.Set` for a fixed list, `predict.Files`/`predict.Dirs` for paths, and `predict.Func` for anything you compute.
+Predictors are `predict.Nothing` for a boolean flag, after which the level's options are offered again, `predict.Something` for a flag whose value nothing can predict, `predict.Set` for a fixed list, `predict.Files`/`predict.Dirs` for paths, and `predict.Func` for anything you compute.
 
 ## Installing into the user's shell
 

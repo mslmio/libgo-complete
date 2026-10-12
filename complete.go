@@ -45,7 +45,8 @@ type Predictor interface {
 	Predict(prefix string) []string
 }
 
-// PredictFunc adapts a function to Predictor.
+// PredictFunc adapts a function to Predictor. A nil PredictFunc predicts
+// nothing, and as a flag's predictor it marks a flag that takes no value.
 type PredictFunc func(prefix string) []string
 
 // Predict implements Predictor.
@@ -133,7 +134,7 @@ func (c *Command) options(line string) []string {
 	// A flag immediately before the cursor is being given its value, unless it
 	// is a flag this level does not know or one that takes none.
 	if len(done) > 0 {
-		if p, ok := cmd.Flags[done[len(done)-1]]; ok && p != nil {
+		if p := cmd.Flags[done[len(done)-1]]; takesValue(p) {
 			return filter(p.Predict(prefix), prefix)
 		}
 	}
@@ -178,6 +179,15 @@ func (c *Command) descend(args []Arg) (*Command, []string) {
 		rest = append(rest, arg.Text)
 	}
 	return cmd, rest
+}
+
+// takesValue reports whether a flag's predictor marks it as taking a value:
+// predict.Nothing holds a nil PredictFunc, which leaves the interface non-nil.
+func takesValue(p Predictor) bool {
+	if f, ok := p.(PredictFunc); ok {
+		return f != nil
+	}
+	return p != nil
 }
 
 // filter keeps only candidates matching the prefix, de-duplicated and sorted.
