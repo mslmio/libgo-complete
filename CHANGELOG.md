@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff.
 
+## 1.0.2 - 2026-10-12
+
+### Fixes
+
+- Offer the level's options again after a predict.Nothing flag ([`1a33c5b`](https://github.com/mslmio/libgo-complete/commit/1a33c5b111a681883d6c628eae1a549036033058))
+
 ## 1.0.1 - 2026-09-28
 
 ### Fixes
